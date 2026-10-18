@@ -73,3 +73,8 @@ Two layers:
   smart-input rules. Pure logic, unit-tested.
 - `src/main.rs` — egui GUI: WYSIWYG rendering, block editing, source mode,
   find, autosave, status bar.
+
+## License
+
+MIT, see [LICENSE](LICENSE). The bundled fonts in `fonts/` keep their own
+SIL Open Font License (Inter, JetBrains Mono).
