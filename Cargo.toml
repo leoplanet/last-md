@@ -2,6 +2,8 @@
 name = "last_md"
 version = "0.1.0"
 edition = "2024"
+authors = ["Leo Choudhary <trackingleo@gmail.com>"]
+description = "Lightweight Typora-style WYSIWYG markdown editor"
 license = "MIT"
 
 [dependencies]
@@ -12,3 +14,6 @@ rfd = "0.17.2"
 
 [dev-dependencies]
 image = { version = "0.25", default-features = false, features = ["png"] }
+
+[profile.release]
+strip = true

@@ -1,48 +1,42 @@
-# Last-MD
+# LAST MD
 
-Lightweight WYSIWYG markdown editor in Rust (Typora-clone MVP).
-Pure Rust GUI: `eframe`/`egui` + `pulldown-cmark`. Single binary.
+A lightweight, Typora-style WYSIWYG markdown editor for Linux, written in
+Rust. You edit the markdown file directly; formatting renders in place and
+the markers (`**`, `#`, `[]()`) show only around the caret. Single binary,
+autosaves.
 
-## Run
-
-```sh
-# debug (fast build)
-CARGO_TARGET_DIR=~/.cache/last_md_target cargo run
-
-# release
-CARGO_TARGET_DIR=~/.cache/last_md_target cargo run --release
-```
-
-`CARGO_TARGET_DIR` is required: the project lives on a cloud-synced drive that
-blocks rustc temp files. That drive also stores modification times in whole
-seconds, so an edit saved in the same second as a build can be missed —
-`touch` the file if a change doesn't seem to take.
-
-Open a file directly: `cargo run -- demo.md` (or Ctrl+O).
-
-## Test
+## Build
 
 ```sh
-CARGO_TARGET_DIR=~/.cache/last_md_target cargo test
+cargo build --release
+# binary: ./target/release/last_md
 ```
 
-Two layers:
-- `src/md.rs` — unit tests for the markdown model (blocks, styles, smart input).
-- `tests/headless.rs` — **headless GUI tests**: drives the real app through
-  real egui frames with synthetic input (typing, Enter, arrows, clicks) and
-  asserts on state *and* rendered text. This is where caret/focus/interaction
-  bugs get caught — add a test here for any editing-behavior fix.
-- `tests/alignment.rs` — measures the left edge of every markdown construct
-  (run with `--nocapture` for the table) and checks they line up.
-- `tests/gallery.rs` — every markdown construct (`tests/fixtures/gallery*.md`) rendered to
-  PNGs, and a char-by-char check of inline styling against pulldown-cmark
-  (`cargo run --example cmark_html FILE` prints the reference HTML).
-- `tests/shortcuts.rs` — clipboard, shortcuts, word/line selection, scrolling,
-  find, tables.
-- `tests/caret_visual.rs` — caret-placement probes: assert where the caret is
-  *painted* and save PNGs to `$CARGO_TARGET_DIR/shots/` for eyeballing.
+While developing, `./run.sh` builds (debug) and runs. It uses
+`CARGO_TARGET_DIR=~/.cache/last_md_target` because the author's checkout
+lives on a cloud-synced drive that blocks rustc temp files; that drive also
+stores modification times in whole seconds, so `touch` a file if an edit
+doesn't seem to take.
 
-## Keys
+## Install (Arch / Omarchy)
+
+One-liner (downloads the prebuilt binary, no sudo, no build):
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/leoplanet/last-md/master/install.sh | sh
+```
+
+Uninstall:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/leoplanet/last-md/master/uninstall.sh | sh
+```
+
+## Usage
+
+```sh
+last-md notes.md   # or just last-md, then Ctrl+O / Ctrl+S
+```
 
 | Key | Action |
 |-----|--------|
@@ -67,12 +61,36 @@ Two layers:
 | ``` + Enter | code block; leave with ↓, → at end, Ctrl+Enter, or Enter on an empty last line |
 | Click a task box | toggle it |
 
+## Tests
+
+```sh
+cargo test
+```
+
+Two layers:
+- `src/md.rs` — unit tests for the markdown model (blocks, styles, smart input).
+- `tests/headless.rs` — **headless GUI tests**: drives the real app through
+  real egui frames with synthetic input (typing, Enter, arrows, clicks) and
+  asserts on state *and* rendered text. This is where caret/focus/interaction
+  bugs get caught — add a test here for any editing-behavior fix.
+- `tests/alignment.rs` — measures the left edge of every markdown construct
+  (run with `--nocapture` for the table) and checks they line up.
+- `tests/gallery.rs` — every markdown construct (`tests/fixtures/gallery*.md`) rendered to
+  PNGs, and a char-by-char check of inline styling against pulldown-cmark
+  (`cargo run --example cmark_html FILE` prints the reference HTML).
+- `tests/shortcuts.rs` — clipboard, shortcuts, word/line selection, scrolling,
+  find, tables.
+- `tests/caret_visual.rs` — caret-placement probes: assert where the caret is
+  *painted* and save PNGs to `$CARGO_TARGET_DIR/shots/` for eyeballing.
+
 ## Layout
 
-- `src/md.rs` — markdown model: block classification, inline spans,
-  smart-input rules. Pure logic, unit-tested.
-- `src/main.rs` — egui GUI: WYSIWYG rendering, block editing, source mode,
-  find, autosave, status bar.
+- `src/wysiwyg.rs` — scanner: classifies every buffer byte as hidden marker
+  or styled visible text (inline styling via pulldown-cmark).
+- `src/layout.rs` — paints the document, lists, quotes, code blocks and
+  tables; maps caret/mouse to buffer offsets.
+- `src/app.rs` — editor state, keyboard/mouse, clipboard, find, autosave.
+- `src/md.rs` — styles and smart-input rules; `src/offset.rs` — caret stops.
 
 ## License
 
