@@ -15,6 +15,8 @@ for f in "$BIN" \
     found=1
   fi
 done
+apps="$HOME/.local/share/applications"
+command -v update-desktop-database >/dev/null 2>&1 && [ -d "$apps" ] && update-desktop-database -q "$apps" || true
 if [ -z "$found" ]; then
   echo "$BIN not found — nothing to uninstall."
   echo "(If you installed via AUR, use: yay -R last-md-git)"
