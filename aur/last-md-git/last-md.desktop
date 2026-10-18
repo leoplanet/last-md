@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=LAST MD
+Comment=Lightweight Typora-style markdown editor
+Exec=last-md %f
+Icon=last-md
+Terminal=false
+Categories=Utility;TextEditor;
+MimeType=text/markdown;text/x-markdown;
+StartupWMClass=last-md

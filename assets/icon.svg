@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<path d="M52 20 H170 L212 62 V220 a16 16 0 0 1 -16 16 H52 a16 16 0 0 1 -16 -16 V36 a16 16 0 0 1 16 -16 Z" fill="#F4F4F6"/>
+<path d="M170 20 V50 a12 12 0 0 0 12 12 H212 Z" fill="#C8C8D0"/>
+<text x="124" y="172" text-anchor="middle" font-family="JetBrainsMono Nerd Font" font-weight="bold" font-size="76" fill="#1C1C20" letter-spacing="-3"><tspan fill="#1464E6">_</tspan>md</text>
+</svg>

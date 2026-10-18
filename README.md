@@ -20,17 +20,21 @@ doesn't seem to take.
 
 ## Install (Arch / Omarchy)
 
-One-liner (downloads the prebuilt binary, no sudo, no build):
+One-liner (downloads the prebuilt binary, no sudo, no build; adds LAST MD to
+the app launcher):
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/leoplanet/last-md/master/install.sh | sh
 ```
 
-Uninstall:
+Uninstall (removes the binary and the launcher entry):
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/leoplanet/last-md/master/uninstall.sh | sh
 ```
+
+An AUR package is **not** (yet) submitted. The PKGBUILD is ready in
+[`aur/last-md-git`](aur/last-md-git/PKGBUILD).
 
 ## Usage
 

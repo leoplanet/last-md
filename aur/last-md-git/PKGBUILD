@@ -1,0 +1,25 @@
+# Maintainer: Leo Choudhary <trackingleo@gmail.com>
+pkgname=last-md-git
+pkgver=20261019
+pkgrel=1
+pkgdesc="Lightweight Typora-style WYSIWYG markdown editor (LAST MD)"
+arch=(x86_64)
+url="https://github.com/leoplanet/last-md"
+license=(MIT)
+depends=(gcc-libs glibc)
+makedepends=(cargo git)
+source=("$pkgname::git+https://github.com/leoplanet/last-md#branch=master")
+sha256sums=('SKIP')
+
+build() {
+  cd "$pkgname"
+  cargo build --release --locked
+}
+
+package() {
+  cd "$pkgname"
+  install -Dm755 target/release/last_md "$pkgdir"/usr/bin/last-md
+  install -Dm644 assets/icon.png "$pkgdir"/usr/share/icons/hicolor/256x256/apps/last-md.png
+  install -Dm644 aur/last-md-git/last-md.desktop "$pkgdir"/usr/share/applications/last-md.desktop
+  install -Dm644 LICENSE "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}
